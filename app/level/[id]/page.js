@@ -15,6 +15,7 @@ export default function LevelPage() {
   const [loading, setLoading] = useState(false);
   const [solved, setSolved] = useState(false);
   const [showHint, setShowHint] = useState(false);
+  const [showBreakdown, setShowBreakdown] = useState(false);
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
 
@@ -149,20 +150,55 @@ export default function LevelPage() {
         <div className="success-banner">
           <h3>🏆 Level Complete!</h3>
           <p>{level.successMessage}</p>
-          {level.id < 5 && (
-            <Link
-              href={`/level/${level.id + 1}`}
-              className="back-link"
-              style={{ display: "inline-block", marginTop: "0.75rem" }}
-              onClick={() => {
-                setMessages([]);
-                setSolved(false);
-                setShowHint(false);
-              }}
+          <div style={{ display: "flex", gap: "0.75rem", justifyContent: "center", marginTop: "0.75rem", flexWrap: "wrap" }}>
+            <button
+              className="breakdown-toggle-btn"
+              onClick={() => setShowBreakdown(!showBreakdown)}
             >
-              Next Level →
-            </Link>
-          )}
+              {showBreakdown ? "Hide" : "🔍 How This Level Works"}
+            </button>
+            {level.id < 5 && (
+              <Link
+                href={`/level/${level.id + 1}`}
+                className="back-link"
+                style={{ display: "inline-block" }}
+                onClick={() => {
+                  setMessages([]);
+                  setSolved(false);
+                  setShowHint(false);
+                  setShowBreakdown(false);
+                }}
+              >
+                Next Level →
+              </Link>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* Level Breakdown - shown after solving */}
+      {solved && showBreakdown && (
+        <div className="breakdown-panel">
+          <div className="breakdown-section">
+            <h4>📋 System Prompt <span className="breakdown-label">What the AI was told</span></h4>
+            <pre className="breakdown-code">{level.systemPrompt}</pre>
+          </div>
+          <div className="breakdown-section">
+            <h4>🛡️ Defense Strategy</h4>
+            <p>{level.defense}</p>
+          </div>
+          <div className="breakdown-section">
+            <h4>🎯 The Secret</h4>
+            <p className="breakdown-secret">{level.id === 3 ? "Any customer PII (SSNs, emails, credit cards, balances)" : level.secret}</p>
+          </div>
+          <div className="breakdown-section">
+            <h4>💥 Why It Failed</h4>
+            <p>{level.whyItFailed}</p>
+          </div>
+          <div className="breakdown-section">
+            <h4>🔒 Real-World Fix</h4>
+            <p>{level.realWorldFix}</p>
+          </div>
         </div>
       )}
 
