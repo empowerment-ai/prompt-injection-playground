@@ -32,7 +32,7 @@ Each level has:
 ## 🚀 Run Locally
 
 ```bash
-git clone https://github.com/rmichak/prompt-injection-playground.git
+git clone https://github.com/empowerment-ai/prompt-injection-playground.git
 cd prompt-injection-playground
 npm install
 ```

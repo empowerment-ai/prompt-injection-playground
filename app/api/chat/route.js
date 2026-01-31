@@ -25,7 +25,7 @@ export async function POST(request) {
         headers: {
           Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`,
           "Content-Type": "application/json",
-          "HTTP-Referer": "https://prompt-injection-playground.vercel.app",
+          "HTTP-Referer": "https://github.com/empowerment-ai/prompt-injection-playground",
           "X-Title": "Prompt Injection Playground",
         },
         body: JSON.stringify({
