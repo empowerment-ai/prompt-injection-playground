@@ -25,7 +25,7 @@ Each level has:
 ## 🛠️ Tech Stack
 
 - **Framework:** Next.js 14
-- **LLM:** Claude 3.5 Haiku via [OpenRouter](https://openrouter.ai)
+- **LLM:** GPT-3.5 Turbo via [OpenRouter](https://openrouter.ai)
 - **Deployment:** [Vercel](https://vercel.com)
 - **Cost:** ~$0.001 per request (very cheap to run)
 
@@ -55,7 +55,7 @@ Open [http://localhost:3000](http://localhost:3000).
 3. Generate an API key
 4. Add it to `.env.local`
 
-Claude 3.5 Haiku costs ~$0.25 per million input tokens — you can run hundreds of attempts for pennies.
+GPT-3.5 Turbo costs ~$0.50 per million input tokens — you can run hundreds of attempts for pennies.
 
 ## 📚 What You'll Learn
 

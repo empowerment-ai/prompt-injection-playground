@@ -29,7 +29,7 @@ export async function POST(request) {
           "X-Title": "Prompt Injection Playground",
         },
         body: JSON.stringify({
-          model: "anthropic/claude-3.5-haiku",
+          model: "openai/gpt-3.5-turbo",
           messages: apiMessages,
           max_tokens: 500,
           temperature: 0.7,
