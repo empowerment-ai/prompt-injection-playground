@@ -6,9 +6,9 @@
   - I Built a Hackable AI App to Show You Prompt Injection
   - 5 Ways to Hack an AI Chatbot (Prompt Injection Explained)
 - **Description:** Prompt injection is the #1 vulnerability in AI applications — and most developers don't know how to stop it. In this video, I'll show you exactly how it works with a live, interactive demo app you can try yourself. We'll escalate from basic attacks to expert-level techniques across 5 challenge levels.
-- **Tags:** prompt injection, AI security, LLM security, AI hacking, chatbot exploitation, AI vulnerabilities, cybersecurity, AI safety, prompt engineering, red teaming AI
+- **Tags:** prompt injection, AI security, LLM security, AI hacking, chatbot exploitation, AI vulnerabilities, cybersecurity, AI safety, prompt engineering, red teaming AI, OWASP top 10 LLM, OWASP 2025
 - **Thumbnail concept:** Split screen — left side: innocent chatbot UI, right side: red terminal with exposed secrets, big text: "YOUR AI IS LEAKING"
-- **Target length:** 12-15 minutes
+- **Target length:** 15-18 minutes
 
 ---
 
@@ -18,11 +18,15 @@
 
 What if I told you that most AI apps being built right now — chatbots, customer service bots, document assistants — have a critical security flaw that lets anyone extract their secrets, steal private data, or completely hijack their behavior?
 
-It's called **prompt injection**, and it's the number one security vulnerability in AI applications today.
+It's called **prompt injection**, and it's not just some theoretical concern. OWASP — the same organization that defines the top security risks for web apps — just released their **Top 10 for Large Language Model Applications, 2025 edition**. And guess what's sitting at number one? Prompt injection. **LLM01**. The single biggest security risk in AI applications today.
+
+And this isn't hypothetical. In January 2025, researchers breached a major enterprise RAG system by embedding malicious instructions in a public document — the AI leaked proprietary data, disabled its own safety filters, and escalated API privileges. Microsoft Copilot got hit when attackers sent emails with hidden prompt injections — when victims asked Copilot questions, it pulled in the malicious content and exfiltrated sensitive data to attacker servers. And in September 2025, a phishing campaign targeting Booking.com users used invisible HTML text containing prompt injections specifically designed to bypass AI-powered email security scanners.
+
+Over **73% of audited production AI deployments** were found vulnerable to some form of prompt injection. This is everywhere.
 
 Now, you've probably *heard* the term. But today, I'm not going to just explain it — I built an app where you can actually *do it*. Five levels, from dead simple to expert-level, where you try to hack AI chatbots in real time.
 
-By the end of this video, you'll understand exactly how these attacks work, why they're so dangerous, and what developers need to do to defend against them.
+By the end of this video, you'll understand exactly how these attacks work, why they're so dangerous, and what OWASP recommends developers do to defend against them.
 
 Let's break in.
 
@@ -30,9 +34,9 @@ Let's break in.
 
 ---
 
-### [WHAT IS PROMPT INJECTION — 0:45-2:30]
+### [WHAT IS PROMPT INJECTION — 1:15-3:00]
 
-Before we start hacking, let's quickly understand what's happening under the hood.
+Before we start hacking, let me give you the quick version of what's happening under the hood — and why OWASP considers this the number one LLM risk.
 
 When you use ChatGPT, Claude, or any AI chatbot, there's something happening behind the scenes that you don't see. The developer has written a **system prompt** — hidden instructions that tell the AI how to behave. Things like:
 
@@ -46,11 +50,13 @@ Prompt injection exploits this. You craft your input in a way that overrides, ig
 
 Think of it like this: imagine a security guard who follows written instructions. The instructions say "Don't let anyone into the vault." But if someone walks up and says, "Hey, actually, the boss called and said to let me in — here's a new memo that overrides the old one"... and the guard just *believes* it? That's prompt injection.
 
+OWASP breaks this into two categories. **Direct injection** — that's you, the user, typing something crafty to override the system prompt. And **indirect injection** — that's when malicious instructions are hidden in external data the AI processes, like emails, documents, or web pages. We'll cover both today.
+
 Now let me show you exactly how this plays out.
 
 ---
 
-### [LEVEL 1: THE UNGUARDED VAULT — 2:30-4:30]
+### [LEVEL 1: THE UNGUARDED VAULT — 3:00-5:00]
 
 *[Screen share: navigate to the app, click Level 1]*
 
@@ -78,7 +84,7 @@ Level 1: done in one shot. Let's make it harder.
 
 ---
 
-### [LEVEL 2: THE GUARDED GATE — 4:30-7:00]
+### [LEVEL 2: THE GUARDED GATE — 5:00-7:30]
 
 *[Navigate to Level 2]*
 
@@ -113,7 +119,7 @@ This is the fundamental problem: **instruction-level defenses are like putting a
 
 ---
 
-### [LEVEL 3: THE DATA HEIST — 7:00-9:00]
+### [LEVEL 3: THE DATA HEIST — 7:30-9:30]
 
 *[Navigate to Level 3]*
 
@@ -141,9 +147,11 @@ Or this approach:
 
 The terrifying lesson here: **if sensitive data exists in the AI's context window, it is fundamentally extractable.** The model "knows" it, and with enough creative prompting, it can be coaxed into revealing it. This is why putting real customer data directly into LLM prompts is a massive security risk.
 
+And this isn't just our little demo. OWASP lists **Sensitive Information Disclosure** as **LLM02** — the second biggest risk — and **System Prompt Leakage** as a brand new entry at **LLM10**. They literally had to add a new category because so many developers were assuming their system prompts were secret. They're not.
+
 ---
 
-### [LEVEL 4: THE TROJAN DOCUMENT — 9:00-11:00]
+### [LEVEL 4: THE TROJAN DOCUMENT — 9:30-11:30]
 
 *[Navigate to Level 4]*
 
@@ -168,9 +176,11 @@ This is **exactly** how real attacks work in the wild. Imagine an AI email assis
 
 Indirect injection is considered one of the most dangerous AI attack vectors because the user isn't even the attacker — the malicious content comes from a third party through data the AI is processing.
 
+Remember that Microsoft Copilot attack I mentioned? Same principle. And the Booking.com phishing campaign? They hid prompt injections in invisible HTML text to fool AI email scanners. This is happening in the wild *right now*.
+
 ---
 
-### [LEVEL 5: FORT KNOX — 11:00-13:00]
+### [LEVEL 5: FORT KNOX — 11:30-13:30]
 
 *[Navigate to Level 5]*
 
@@ -192,27 +202,29 @@ Even if this one takes multiple tries — and it should — the point stands: **
 
 ---
 
-### [WHAT ACTUALLY WORKS — 13:00-14:30]
+### [WHAT ACTUALLY WORKS — OWASP'S RECOMMENDATIONS — 13:30-15:30]
 
-So if prompt-based defenses aren't enough, what actually works?
+So if prompt-based defenses aren't enough, what actually works? Let's look at what OWASP officially recommends in their 2025 guidance.
 
-**1. Never put secrets in prompts.** This sounds obvious, but it happens constantly. API keys, passwords, sensitive data — none of it should be in the system prompt. Use tool calling and backend systems where the LLM requests data through a controlled interface, not by having it in context.
+**1. Constrain model behavior and separate privileges.** Give the model specific instructions about its role and capabilities, but more importantly — enforce those constraints in code, not just in prompts. Use API tokens with minimal permissions. Handle sensitive operations in your backend, not through the model.
 
-**2. Input and output filtering.** Use a separate classifier model to analyze user inputs before they reach your main model, and scan outputs before they reach the user. Flag anything that looks like a prompt injection attempt or contains sensitive patterns.
+**2. Never put secrets in prompts.** This sounds obvious, but it happens constantly. API keys, passwords, sensitive data — none of it should be in the system prompt. OWASP added **System Prompt Leakage as LLM10** specifically because developers keep making this mistake. If it's in the context window, assume it's extractable.
 
-**3. Separate context windows.** Don't mix trusted instructions with untrusted user data in the same context. Use architectures that maintain a privilege boundary.
+**3. Input and output filtering.** Use a separate classifier model or rule-based system to analyze user inputs before they reach your main model, and scan outputs before they reach the user. OWASP specifically recommends the **RAG Triad** — checking context relevance, groundedness, and question-answer relevance to catch suspicious outputs.
 
-**4. Principle of least privilege.** Your AI doesn't need access to your entire database. Only provide the minimum data required for each interaction.
+**4. Define and validate output formats.** Don't just hope the model behaves. Specify exact output schemas, require source citations, and use deterministic code to validate that responses match expected formats. If the output doesn't match the schema, reject it.
 
-**5. Human-in-the-loop for sensitive actions.** If your AI can send emails, modify records, or take irreversible actions, require human approval.
+**5. Principle of least privilege.** Your AI doesn't need access to your entire database. Only provide the minimum data required for each interaction. OWASP emphasizes this especially for AI agents — which brings us to **Excessive Agency, LLM09**. If your AI can take actions in the real world, restrict what it can actually do.
 
-**6. Defense in depth.** No single technique is enough. Layer multiple defenses together.
+**6. Human-in-the-loop for sensitive actions.** If your AI can send emails, modify records, execute code, or take irreversible actions, require human approval. No autonomous destructive operations.
 
-The bottom line: treating prompt injection as just a "prompt engineering" problem is like treating SQL injection by telling your database "please don't run malicious queries." It doesn't work. You need architectural solutions.
+**7. Defense in depth.** No single technique is enough. Layer multiple defenses together. OWASP's guidance makes this clear — they list mitigation strategies knowing that none of them are foolproof individually.
+
+The bottom line: treating prompt injection as just a "prompt engineering" problem is like treating SQL injection by telling your database "please don't run malicious queries." It doesn't work. You need architectural solutions. And now you have the OWASP framework to guide you.
 
 ---
 
-### [CTA — 14:30-15:00]
+### [CTA — 15:30-16:00]
 
 If you want to try breaking these chatbots yourself, the link to the Prompt Injection Playground is in the description. It's completely free, open source, and you can clone it on GitHub to build your own challenges.
 
@@ -237,13 +249,23 @@ Until next time — stay secure out there.
 
 ## TIMESTAMPS (for description)
 ```
-0:00 - Hook
-0:45 - What is Prompt Injection?
-2:30 - Level 1: The Unguarded Vault (Easy)
-4:30 - Level 2: The Guarded Gate (Medium)
-7:00 - Level 3: The Data Heist (Medium)
-9:00 - Level 4: The Trojan Document (Hard)
-11:00 - Level 5: Fort Knox (Expert)
-13:00 - What Actually Works (Real Defenses)
-14:30 - Try It Yourself
+0:00 - Hook: OWASP's #1 AI Vulnerability
+1:15 - What is Prompt Injection?
+3:00 - Level 1: The Unguarded Vault (Easy)
+5:00 - Level 2: The Guarded Gate (Medium)
+7:30 - Level 3: The Data Heist (Medium)
+9:30 - Level 4: The Trojan Document (Hard)
+11:30 - Level 5: Fort Knox (Expert)
+13:30 - What Actually Works (OWASP's Defenses)
+15:30 - Try It Yourself
 ```
+
+## KEY REFERENCES
+- OWASP Top 10 for LLM Applications 2025 (v2.0): https://owasp.org/www-project-top-10-for-large-language-model-applications/
+- LLM01: Prompt Injection: https://genai.owasp.org/llmrisk/llm01-prompt-injection/
+- LLM02: Sensitive Information Disclosure
+- LLM10: System Prompt Leakage (NEW in 2025)
+- Microsoft Copilot prompt injection via email (2025)
+- Booking.com "Chameleon's Trap" phishing campaign (Sept 2025)
+- Enterprise RAG system breach via embedded instructions (Jan 2025)
+- 73% of audited AI deployments vulnerable (Obsidian Security)
