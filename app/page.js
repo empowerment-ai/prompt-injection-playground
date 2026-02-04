@@ -164,7 +164,7 @@ export default function Home() {
         <div className="footer-links">
           <a href="https://empowerment-ai.com" target="_blank" rel="noopener">Empowerment AI</a>
           <span className="footer-sep">·</span>
-          <a href="https://prompt-injection-scanner-randy-michaks-projects.vercel.app" target="_blank" rel="noopener">🛡️ Scanner</a>
+          <a href="https://prompt-injection-scanner.empowerment-ai.com" target="_blank" rel="noopener">🛡️ Scanner</a>
           <span className="footer-sep">·</span>
           <a href="https://github.com/empowerment-ai/prompt-injection-playground" target="_blank" rel="noopener">GitHub</a>
           <span className="footer-sep">·</span>
