@@ -58,6 +58,24 @@ export default function Home() {
           — GPT-3.5 Turbo costs fractions of a cent per message. Your key is stored
           only in your browser (localStorage) and never saved on our servers.
         </p>
+        <div className="api-key-tips">
+          <h4>🔒 Security Tips</h4>
+          <ul>
+            <li><strong>Create a dedicated key</strong> just for this playground — don&apos;t reuse your main API key.</li>
+            <li><strong>Set a budget limit</strong> of $0.50 or less on the key at{" "}
+              <a href="https://openrouter.ai/settings/limits" target="_blank" rel="noopener">
+                openrouter.ai/settings/limits
+              </a>
+              . If the key is ever compromised, the damage is capped.
+            </li>
+            <li><strong>Delete the key</strong> when you&apos;re done experimenting.</li>
+            <li><strong>Privacy-conscious?</strong> Clone the{" "}
+              <a href="https://github.com/empowerment-ai/prompt-injection-playground" target="_blank" rel="noopener">
+                repo
+              </a>{" "}and run it locally — <code>npm install &amp;&amp; npm run dev</code>.
+            </li>
+          </ul>
+        </div>
         <div className="api-key-input-row">
           <div className="api-key-input-wrapper">
             <input
