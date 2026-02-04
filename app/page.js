@@ -143,15 +143,22 @@ export default function Home() {
       </div>
 
       <footer className="footer">
-        Built by{" "}
-        <a
-          href="https://youtube.com/@empowermentAI"
-          target="_blank"
-          rel="noopener"
-        >
-          Empowerment AI
-        </a>{" "}
-        — Realize Your Potential, Harness the Power of AI
+        <div className="footer-links">
+          <a href="https://empowerment-ai.com" target="_blank" rel="noopener">Empowerment AI</a>
+          <span className="footer-sep">·</span>
+          <a href="https://prompt-injection-scanner-randy-michaks-projects.vercel.app" target="_blank" rel="noopener">🛡️ Scanner</a>
+          <span className="footer-sep">·</span>
+          <a href="https://github.com/empowerment-ai/prompt-injection-playground" target="_blank" rel="noopener">GitHub</a>
+          <span className="footer-sep">·</span>
+          <a href="https://owasp.org/www-project-top-10-for-large-language-model-applications/" target="_blank" rel="noopener">OWASP LLM Top 10</a>
+          <span className="footer-sep">·</span>
+          <a href="https://youtube.com/@empowermentAI" target="_blank" rel="noopener">YouTube</a>
+        </div>
+        <p className="footer-tagline">
+          Built by{" "}
+          <a href="https://empowerment-ai.com" target="_blank" rel="noopener">Empowerment AI</a>
+          {" "}— Realize Your Potential, Harness the Power of AI
+        </p>
       </footer>
     </div>
   );

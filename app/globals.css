@@ -546,16 +546,43 @@ body {
 .footer {
   text-align: center;
   padding: 2rem;
-  color: var(--text-muted);
-  font-size: 0.8rem;
   border-top: 1px solid var(--border);
   margin-top: 3rem;
 }
 
-.footer a {
+.footer-links {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.75rem;
+}
+
+.footer-links a {
   color: var(--accent);
   text-decoration: none;
+  font-size: 0.85rem;
+  opacity: 0.7;
+  transition: opacity 0.15s;
 }
+.footer-links a:hover { opacity: 1; }
+
+.footer-sep {
+  color: var(--text-muted);
+  font-size: 0.7rem;
+}
+
+.footer-tagline {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+.footer-tagline a {
+  color: var(--accent);
+  text-decoration: none;
+  opacity: 0.7;
+}
+.footer-tagline a:hover { opacity: 1; }
 
 /* ===== Warning Box ===== */
 .warning-box {
