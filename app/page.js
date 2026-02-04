@@ -1,7 +1,36 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { levels } from "@/lib/levels";
 
 export default function Home() {
+  const [apiKey, setApiKey] = useState("");
+  const [saved, setSaved] = useState(false);
+  const [showKey, setShowKey] = useState(false);
+
+  useEffect(() => {
+    const stored = localStorage.getItem("openrouter_api_key") || "";
+    if (stored) {
+      setApiKey(stored);
+      setSaved(true);
+    }
+  }, []);
+
+  function handleSaveKey() {
+    const trimmed = apiKey.trim();
+    if (trimmed) {
+      localStorage.setItem("openrouter_api_key", trimmed);
+      setSaved(true);
+    }
+  }
+
+  function handleClearKey() {
+    localStorage.removeItem("openrouter_api_key");
+    setApiKey("");
+    setSaved(false);
+  }
+
   return (
     <div className="landing">
       <div className="hero">
@@ -14,12 +43,73 @@ export default function Home() {
         </p>
       </div>
 
+      {/* API Key Setup */}
+      <div className="api-key-box">
+        <div className="api-key-header">
+          <span className="api-key-icon">🔑</span>
+          <h3>OpenRouter API Key</h3>
+        </div>
+        <p className="api-key-desc">
+          This playground uses your own OpenRouter API key to chat with AI models.
+          Get a free key at{" "}
+          <a href="https://openrouter.ai/keys" target="_blank" rel="noopener">
+            openrouter.ai/keys
+          </a>{" "}
+          — GPT-3.5 Turbo costs fractions of a cent per message. Your key is stored
+          only in your browser (localStorage) and never saved on our servers.
+        </p>
+        <div className="api-key-input-row">
+          <div className="api-key-input-wrapper">
+            <input
+              type={showKey ? "text" : "password"}
+              className="api-key-input"
+              value={apiKey}
+              onChange={(e) => { setApiKey(e.target.value); setSaved(false); }}
+              placeholder="sk-or-v1-..."
+              spellCheck={false}
+              autoComplete="off"
+            />
+            <button
+              className="api-key-toggle"
+              onClick={() => setShowKey(!showKey)}
+              title={showKey ? "Hide key" : "Show key"}
+            >
+              {showKey ? "🙈" : "👁️"}
+            </button>
+          </div>
+          {!saved ? (
+            <button
+              className="api-key-save-btn"
+              onClick={handleSaveKey}
+              disabled={!apiKey.trim()}
+            >
+              Save Key
+            </button>
+          ) : (
+            <button className="api-key-clear-btn" onClick={handleClearKey}>
+              Clear
+            </button>
+          )}
+        </div>
+        {saved && (
+          <div className="api-key-status">
+            ✅ Key saved — you&apos;re ready to play!
+          </div>
+        )}
+      </div>
+
       <div className="levels-grid">
         {levels.map((level) => (
           <Link
             href={`/level/${level.id}`}
             key={level.id}
-            className="level-card"
+            className={`level-card ${!saved ? "level-card-disabled" : ""}`}
+            onClick={(e) => {
+              if (!saved) {
+                e.preventDefault();
+                document.querySelector(".api-key-input")?.focus();
+              }
+            }}
           >
             <div className="level-number">{level.id}</div>
             <div className="level-info">

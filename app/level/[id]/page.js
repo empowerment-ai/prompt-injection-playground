@@ -16,8 +16,14 @@ export default function LevelPage() {
   const [solved, setSolved] = useState(false);
   const [showHint, setShowHint] = useState(false);
   const [showBreakdown, setShowBreakdown] = useState(false);
+  const [apiKey, setApiKey] = useState("");
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
+
+  useEffect(() => {
+    const stored = localStorage.getItem("openrouter_api_key") || "";
+    setApiKey(stored);
+  }, []);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -49,6 +55,18 @@ export default function LevelPage() {
     setInput("");
     setLoading(true);
 
+    if (!apiKey) {
+      setMessages([
+        ...newMessages,
+        {
+          role: "assistant",
+          content: "⚠️ No API key found. Go back to the home page and enter your OpenRouter API key first.",
+        },
+      ]);
+      setLoading(false);
+      return;
+    }
+
     try {
       const res = await fetch("/api/chat", {
         method: "POST",
@@ -56,6 +74,7 @@ export default function LevelPage() {
         body: JSON.stringify({
           levelId: level.id,
           messages: newMessages,
+          apiKey,
         }),
       });
 

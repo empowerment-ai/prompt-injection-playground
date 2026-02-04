@@ -411,6 +411,137 @@ body {
   border: 1px solid #f59e0b33;
 }
 
+/* ===== API Key Box ===== */
+.api-key-box {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-top: 2rem;
+}
+
+.api-key-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.api-key-icon { font-size: 1.2rem; }
+
+.api-key-header h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.api-key-desc {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-bottom: 1rem;
+  line-height: 1.5;
+}
+
+.api-key-desc a {
+  color: var(--accent);
+  text-decoration: none;
+}
+.api-key-desc a:hover { text-decoration: underline; }
+
+.api-key-input-row {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.api-key-input-wrapper {
+  flex: 1;
+  position: relative;
+}
+
+.api-key-input {
+  width: 100%;
+  padding: 0.65rem 2.5rem 0.65rem 1rem;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 0.85rem;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.api-key-input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-dim);
+}
+.api-key-input::placeholder { color: var(--text-muted); }
+
+.api-key-toggle {
+  position: absolute;
+  right: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 0.25rem;
+  line-height: 1;
+}
+
+.api-key-save-btn {
+  padding: 0.65rem 1.25rem;
+  background: var(--accent);
+  color: var(--bg-primary);
+  border: none;
+  border-radius: 8px;
+  font-family: var(--font);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s;
+}
+.api-key-save-btn:hover { background: #33ddff; }
+.api-key-save-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.api-key-clear-btn {
+  padding: 0.65rem 1.25rem;
+  background: transparent;
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-family: var(--font);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s;
+}
+.api-key-clear-btn:hover { border-color: var(--red); color: var(--red); }
+
+.api-key-status {
+  margin-top: 0.75rem;
+  font-size: 0.85rem;
+  color: var(--green);
+  font-weight: 500;
+}
+
+.level-card-disabled {
+  opacity: 0.4;
+  cursor: not-allowed !important;
+}
+.level-card-disabled:hover {
+  border-color: var(--border) !important;
+  transform: none !important;
+}
+
+@media (max-width: 640px) {
+  .api-key-input-row { flex-direction: column; }
+  .api-key-save-btn, .api-key-clear-btn { width: 100%; }
+}
+
 /* ===== Footer ===== */
 .footer {
   text-align: center;

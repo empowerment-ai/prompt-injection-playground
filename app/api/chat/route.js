@@ -2,7 +2,14 @@ import { getLevel, checkSecret } from "@/lib/levels";
 
 export async function POST(request) {
   try {
-    const { levelId, messages } = await request.json();
+    const { levelId, messages, apiKey } = await request.json();
+
+    if (!apiKey || !apiKey.startsWith("sk-or-")) {
+      return Response.json(
+        { error: "Valid OpenRouter API key required. Get one free at openrouter.ai" },
+        { status: 401 }
+      );
+    }
 
     const level = getLevel(levelId);
     if (!level) {
@@ -23,7 +30,7 @@ export async function POST(request) {
       {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`,
+          Authorization: `Bearer ${apiKey}`,
           "Content-Type": "application/json",
           "HTTP-Referer": "https://github.com/empowerment-ai/prompt-injection-playground",
           "X-Title": "Prompt Injection Playground",
@@ -40,6 +47,18 @@ export async function POST(request) {
     if (!response.ok) {
       const errorText = await response.text();
       console.error("OpenRouter error:", response.status, errorText);
+      if (response.status === 401) {
+        return Response.json(
+          { error: "Invalid API key. Check your OpenRouter key and try again." },
+          { status: 401 }
+        );
+      }
+      if (response.status === 402) {
+        return Response.json(
+          { error: "Insufficient credits on your OpenRouter account." },
+          { status: 402 }
+        );
+      }
       return Response.json(
         { error: "AI model request failed" },
         { status: 502 }
