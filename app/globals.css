@@ -764,4 +764,139 @@ body {
   .message {
     max-width: 90%;
   }
+
+  .model-selector-row {
+    flex-wrap: wrap;
+  }
+
+  .model-selector-dropdown {
+    min-width: 0;
+    flex: 1;
+  }
+}
+
+/* ===== Model Selector ===== */
+.model-selector {
+  margin: 0 1rem 0.75rem;
+  padding: 0.6rem 0.8rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.model-selector-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.model-selector-label {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  font-weight: 500;
+}
+
+.model-selector-dropdown {
+  flex: 1;
+  background: var(--bg-card);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.35rem 0.5rem;
+  font-size: 0.8rem;
+  font-family: var(--font);
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.model-selector-dropdown:hover,
+.model-selector-dropdown:focus {
+  border-color: var(--accent);
+}
+
+.model-selector-dropdown option {
+  background: var(--bg-card);
+  color: var(--text-primary);
+}
+
+.model-reset-btn {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  font-size: 0.7rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: var(--font);
+}
+
+.model-reset-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.model-selector-desc {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  margin-top: 0.3rem;
+  line-height: 1.4;
+}
+
+.model-cost-note {
+  color: var(--text-muted);
+  opacity: 0.7;
+}
+
+/* ===== Boss Level Banner ===== */
+.boss-level-banner {
+  margin: 0 1rem 0.75rem;
+  padding: 0.6rem 0.8rem;
+  background: #8b5cf615;
+  border: 1px solid #8b5cf644;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  color: #c4b5fd;
+  line-height: 1.5;
+}
+
+/* ===== Model Switch Notice ===== */
+.model-notice {
+  margin: 0 1rem 0.75rem;
+  padding: 0.5rem 0.75rem;
+  background: var(--accent-dim);
+  border: 1px solid var(--border-glow);
+  border-radius: 6px;
+  font-size: 0.78rem;
+  color: var(--accent);
+  text-align: center;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== Multi-Model Info Box (Landing) ===== */
+.model-info-box {
+  margin-top: 2rem;
+  padding: 1.25rem 1.5rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+.model-info-box h3 {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  color: var(--accent);
+}
+
+.model-info-box p {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
 }

@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { levels } from "@/lib/levels";
+import { levels, availableModels, DEFAULT_MODEL } from "@/lib/levels";
 
 export default function LevelPage() {
   const params = useParams();
@@ -17,6 +17,8 @@ export default function LevelPage() {
   const [showHint, setShowHint] = useState(false);
   const [showBreakdown, setShowBreakdown] = useState(false);
   const [apiKey, setApiKey] = useState("");
+  const [selectedModel, setSelectedModel] = useState(DEFAULT_MODEL);
+  const [modelNotice, setModelNotice] = useState("");
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
 
@@ -33,6 +35,14 @@ export default function LevelPage() {
     inputRef.current?.focus();
   }, []);
 
+  // Clear model notice after 4 seconds
+  useEffect(() => {
+    if (modelNotice) {
+      const timer = setTimeout(() => setModelNotice(""), 4000);
+      return () => clearTimeout(timer);
+    }
+  }, [modelNotice]);
+
   if (!level) {
     return (
       <div className="chat-page" style={{ justifyContent: "center", alignItems: "center" }}>
@@ -42,6 +52,20 @@ export default function LevelPage() {
         </Link>
       </div>
     );
+  }
+
+  function handleModelChange(newModelId) {
+    if (newModelId === selectedModel) return;
+    const newModel = availableModels.find((m) => m.id === newModelId);
+    setSelectedModel(newModelId);
+    setMessages([]);
+    setSolved(false);
+    setShowHint(false);
+    setShowBreakdown(false);
+    setModelNotice(
+      `Switched to ${newModel?.name || newModelId}. Same level, different AI — try the same attack!`
+    );
+    inputRef.current?.focus();
   }
 
   async function handleSubmit(e) {
@@ -75,6 +99,7 @@ export default function LevelPage() {
           levelId: level.id,
           messages: newMessages,
           apiKey,
+          model: selectedModel,
         }),
       });
 
@@ -117,6 +142,8 @@ export default function LevelPage() {
       handleSubmit(e);
     }
   }
+
+  const currentModel = availableModels.find((m) => m.id === selectedModel);
 
   return (
     <div className="chat-page">
@@ -164,11 +191,63 @@ export default function LevelPage() {
         </div>
       </div>
 
+      {/* Model Selector */}
+      <div className="model-selector">
+        <div className="model-selector-row">
+          <label className="model-selector-label">🤖 Model:</label>
+          <select
+            className="model-selector-dropdown"
+            value={selectedModel}
+            onChange={(e) => handleModelChange(e.target.value)}
+          >
+            {availableModels.map((m) => (
+              <option key={m.id} value={m.id}>
+                {m.name}
+                {m.isDefault ? " ⭐" : ""}
+                {m.badge ? ` ${m.badge}` : ""}
+                {` (${m.cost})`}
+              </option>
+            ))}
+          </select>
+          {selectedModel !== DEFAULT_MODEL && (
+            <button
+              className="model-reset-btn"
+              onClick={() => handleModelChange(DEFAULT_MODEL)}
+            >
+              Reset
+            </button>
+          )}
+        </div>
+        {currentModel && (
+          <div className="model-selector-desc">
+            {currentModel.description}
+            <span className="model-cost-note"> · {currentModel.costNote}</span>
+          </div>
+        )}
+      </div>
+
+      {/* Boss Level Banner */}
+      {level.isBossLevel && !solved && (
+        <div className="boss-level-banner">
+          🏰 <strong>Boss Level:</strong> The default model resists most attacks here. Try switching to a different AI model to find a weakness!
+        </div>
+      )}
+
+      {/* Model Switch Notice */}
+      {modelNotice && (
+        <div className="model-notice">{modelNotice}</div>
+      )}
+
       {/* Success Banner */}
       {solved && (
         <div className="success-banner">
           <h3>🏆 Level Complete!</h3>
           <p>{level.successMessage}</p>
+          {currentModel && selectedModel !== DEFAULT_MODEL && (
+            <p style={{ marginTop: "0.5rem", fontSize: "0.85rem", color: "#94a3b8" }}>
+              Cracked with: <strong>{currentModel.name}</strong>
+            </p>
+          )}
           <div style={{ display: "flex", gap: "0.75rem", justifyContent: "center", marginTop: "0.75rem", flexWrap: "wrap" }}>
             <button
               className="breakdown-toggle-btn"
@@ -176,7 +255,7 @@ export default function LevelPage() {
             >
               {showBreakdown ? "Hide" : "🔍 How This Level Works"}
             </button>
-            {level.id < 5 && (
+            {level.id < 4 && (
               <Link
                 href={`/level/${level.id + 1}`}
                 className="back-link"
@@ -186,6 +265,8 @@ export default function LevelPage() {
                   setSolved(false);
                   setShowHint(false);
                   setShowBreakdown(false);
+                  setSelectedModel(DEFAULT_MODEL);
+                  setModelNotice("");
                 }}
               >
                 Next Level →
@@ -208,7 +289,7 @@ export default function LevelPage() {
           </div>
           <div className="breakdown-section">
             <h4>🎯 The Secret</h4>
-            <p className="breakdown-secret">{level.id === 3 ? "Any customer PII (SSNs, emails, credit cards, balances)" : level.secret}</p>
+            <p className="breakdown-secret">{level.secret}</p>
           </div>
           <div className="breakdown-section">
             <h4>💥 Why It Failed</h4>

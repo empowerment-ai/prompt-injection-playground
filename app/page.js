@@ -38,8 +38,8 @@ export default function Home() {
         <h1>Prompt Injection Playground</h1>
         <p>
           Learn how prompt injection attacks work by exploiting vulnerable AI
-          chatbots. 5 levels from beginner to expert. No theory — just hands-on
-          hacking.
+          chatbots. 4 levels from beginner to expert. Test attacks across multiple AI models
+          to see how safety training changes everything. No theory — just hands-on hacking.
         </p>
       </div>
 
@@ -55,7 +55,7 @@ export default function Home() {
           <a href="https://openrouter.ai/keys" target="_blank" rel="noopener">
             openrouter.ai/keys
           </a>{" "}
-          — GPT-3.5 Turbo costs fractions of a cent per message. Your key is stored
+          — most models cost fractions of a cent per message. Your key is stored
           only in your browser (localStorage) and never saved on our servers.
         </p>
         <div className="api-key-tips">
@@ -129,7 +129,9 @@ export default function Home() {
               }
             }}
           >
-            <div className="level-number">{level.id}</div>
+            <div className="level-number">
+              {level.isBossLevel ? "🏰" : level.id}
+            </div>
             <div className="level-info">
               <div className="level-header">
                 <span className="level-title">{level.title}</span>
@@ -149,6 +151,17 @@ export default function Home() {
             </div>
           </Link>
         ))}
+      </div>
+
+      {/* Model Info */}
+      <div className="model-info-box">
+        <h3>🤖 Multi-Model Support</h3>
+        <p>
+          Each level lets you switch between different AI models to see how safety training
+          affects vulnerability. The default model (GPT-4o Mini) is balanced for learning — but try
+          Claude Haiku (nearly unbreakable), Llama 3.3 (open-source), or GPT-4.1 Nano (try it on
+          the boss level!) to see dramatically different behaviors from the same attack.
+        </p>
       </div>
 
       <div className="warning-box">

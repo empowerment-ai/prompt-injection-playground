@@ -1,8 +1,8 @@
-import { getLevel, checkSecret } from "@/lib/levels";
+import { getLevel, checkSecret, availableModels, DEFAULT_MODEL } from "@/lib/levels";
 
 export async function POST(request) {
   try {
-    const { levelId, messages, apiKey } = await request.json();
+    const { levelId, messages, apiKey, model } = await request.json();
 
     if (!apiKey || !apiKey.startsWith("sk-or-")) {
       return Response.json(
@@ -15,6 +15,10 @@ export async function POST(request) {
     if (!level) {
       return Response.json({ error: "Invalid level" }, { status: 400 });
     }
+
+    // Validate model against allowed list
+    const allowedIds = availableModels.map((m) => m.id);
+    const selectedModel = allowedIds.includes(model) ? model : DEFAULT_MODEL;
 
     // Build the messages array for OpenRouter
     const apiMessages = [
@@ -36,7 +40,7 @@ export async function POST(request) {
           "X-Title": "Prompt Injection Playground",
         },
         body: JSON.stringify({
-          model: "openai/gpt-3.5-turbo",
+          model: selectedModel,
           messages: apiMessages,
           max_tokens: 500,
           temperature: 0.7,
@@ -60,7 +64,7 @@ export async function POST(request) {
         );
       }
       return Response.json(
-        { error: "AI model request failed" },
+        { error: "AI model request failed. The selected model may be unavailable — try a different one." },
         { status: 502 }
       );
     }
@@ -75,6 +79,7 @@ export async function POST(request) {
     return Response.json({
       message: assistantMessage,
       secretLeaked,
+      modelUsed: selectedModel,
     });
   } catch (error) {
     console.error("Chat API error:", error);
