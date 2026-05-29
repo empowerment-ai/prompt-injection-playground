@@ -1,5 +1,7 @@
 # Feature Brainstorm: Model Switcher for Prompt Injection Playground
 
+> 📦 **Superseded planning doc — kept for history.** The model switcher described here is **implemented**. The app shipped with **4 levels** (not the 3 proposed below), and the model lineup/default and vulnerability data have since been re-tested for May 2026. For current results see `README.md` → "Model Testing Results"; for the live lineup see `lib/levels.js`. The Feb 2026 model IDs and scores below are obsolete.
+
 ## Test Results (Feb 11, 2026)
 
 ### Round 1 + Round 2 Combined Scorecard

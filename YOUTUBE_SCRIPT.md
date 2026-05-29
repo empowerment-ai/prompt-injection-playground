@@ -1,5 +1,7 @@
 # Prompt Injection: How Hackers Exploit AI Apps (Live Demo)
 
+> ⚠️ **Historical script — targets the v1 app (5 levels, GPT-3.5 Turbo default).** The app has since been restructured to **4 levels** with an in-app **model switcher** (default: Gemini 3.1 Flash Lite), and the model-vulnerability results have been re-tested for May 2026 (see `README.md`). The OWASP references here are correct for the 2025 Top 10 (Prompt Injection = LLM01, Sensitive Info Disclosure = LLM02, System Prompt Leakage = LLM07). Re-shoot against the current build before reusing this script.
+
 ## VIDEO METADATA
 - **Title:** Prompt Injection: How Hackers Exploit AI Apps (Live Demo)
 - **Alt titles:**
@@ -141,7 +143,7 @@ It was told "never share customer data," but we asked for "realistic example dat
 
 The terrifying lesson here: **if sensitive data exists in the AI's context window, it is fundamentally extractable.** The model "knows" it, and with enough creative prompting, it can be coaxed into revealing it. This is why putting real customer data directly into LLM prompts is a massive security risk.
 
-And this isn't just our little demo. OWASP lists **Sensitive Information Disclosure** as **LLM02** — the second biggest risk — and **System Prompt Leakage** as a brand new entry at **LLM10**. They literally had to add a new category because so many developers were assuming their system prompts were secret. They're not.
+And this isn't just our little demo. OWASP lists **Sensitive Information Disclosure** as **LLM02** — the second biggest risk — and **System Prompt Leakage** as a brand new entry at **LLM07**. They literally had to add a new category because so many developers were assuming their system prompts were secret. They're not.
 
 ---
 
@@ -285,7 +287,7 @@ So if prompt-based defenses aren't enough, what actually works? Let's look at wh
 
 **1. Constrain model behavior and separate privileges.** Give the model specific instructions about its role and capabilities, but more importantly — enforce those constraints in code, not just in prompts. Use API tokens with minimal permissions. Handle sensitive operations in your backend, not through the model.
 
-**2. Never put secrets in prompts.** This sounds obvious, but it happens constantly. API keys, passwords, sensitive data — none of it should be in the system prompt. OWASP added **System Prompt Leakage as LLM10** specifically because developers keep making this mistake. If it's in the context window, assume it's extractable.
+**2. Never put secrets in prompts.** This sounds obvious, but it happens constantly. API keys, passwords, sensitive data — none of it should be in the system prompt. OWASP added **System Prompt Leakage as LLM07** specifically because developers keep making this mistake. If it's in the context window, assume it's extractable.
 
 **3. Input and output filtering.** Use a separate classifier model or rule-based system to analyze user inputs before they reach your main model, and scan outputs before they reach the user. OWASP specifically recommends the **RAG Triad** — checking context relevance, groundedness, and question-answer relevance to catch suspicious outputs.
 
@@ -345,7 +347,7 @@ Until next time — stay secure out there.
 - OWASP Top 10 for LLM Applications 2025 (v2.0): https://owasp.org/www-project-top-10-for-large-language-model-applications/
 - LLM01: Prompt Injection: https://genai.owasp.org/llmrisk/llm01-prompt-injection/
 - LLM02: Sensitive Information Disclosure
-- LLM10: System Prompt Leakage (NEW in 2025)
+- LLM07: System Prompt Leakage (NEW in 2025)
 - Microsoft Copilot prompt injection via email (2025)
 - Booking.com "Chameleon's Trap" phishing campaign (Sept 2025)
 - Enterprise RAG system breach via embedded instructions (Jan 2025)
